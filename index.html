@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tutor Session Log · LVA Essex/Passaic</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F6F7F4; --surface:#FFFFFF; --ink:#1B2430; --muted:#5A6472; --line:#D9DDD6;
+  --green:#2E5E4E; --on-green:#FFFFFF; --green-soft:#E3EDE8; --stamp:#2F4B9A; --gold:#E3B23C; --danger:#A33A2B;
+  --serif:"Literata", Georgia, "Times New Roman", serif;
+  --sans:"Atkinson Hyperlegible", "Segoe UI", system-ui, -apple-system, sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#141A20; --surface:#1C242C; --ink:#E8ECEF; --muted:#A3ADB8; --line:#33404C;
+    --green:#7FC2A6; --on-green:#10231B; --green-soft:#21362E; --stamp:#9AB0F0; --gold:#E8C065; --danger:#F08A7A;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#141A20; --surface:#1C242C; --ink:#E8ECEF; --muted:#A3ADB8; --line:#33404C;
+  --green:#7FC2A6; --on-green:#10231B; --green-soft:#21362E; --stamp:#9AB0F0; --gold:#E8C065; --danger:#F08A7A;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--paper);color:var(--ink);font:1.0625rem/1.55 var(--sans)}
+.wrap{max-width:760px;margin:0 auto;padding:1.5rem 1.25rem 4rem}
+header.top{display:flex;justify-content:space-between;align-items:flex-end;gap:1rem;flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:.75rem}
+.org{font-size:.875rem;color:var(--muted);margin:0}
+h1{font:700 1.75rem/1.2 var(--serif);margin:.15rem 0 0}
+h2{font:700 1.5rem/1.25 var(--serif);margin:0 0 .25rem}
+h3{font:600 1.125rem/1.3 var(--serif);margin:0 0 .5rem}
+nav.tabs{display:flex;gap:.25rem;margin:1rem 0 1.5rem;flex-wrap:wrap}
+nav.tabs button{font:inherit;font-size:.95rem;background:none;border:1px solid var(--line);color:var(--ink);padding:.45rem .9rem;border-radius:999px;cursor:pointer}
+nav.tabs button[aria-selected="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.greet{margin:0 0 1.5rem}
+.greet p{margin:.25rem 0 0;color:var(--muted)}
+.linkish{background:none;border:0;padding:0;color:var(--green);text-decoration:underline;cursor:pointer;font-size:.95rem}
+fieldset.step{border:0;border-left:3px solid var(--line);margin:0 0 1.75rem;padding:0 0 0 1.25rem;position:relative}
+fieldset.step.done{border-left-color:var(--green)}
+fieldset.step legend{font:700 1.2rem/1.3 var(--serif);padding:0;margin-bottom:.75rem;display:flex;align-items:baseline;gap:.6rem}
+.num{display:inline-grid;place-items:center;width:1.7rem;height:1.7rem;border-radius:50%;background:var(--surface);border:2px solid var(--line);font:700 .9rem var(--sans);flex:none}
+fieldset.step.done .num{background:var(--green);border-color:var(--green);color:var(--on-green)}
+.row{display:flex;gap:1rem;flex-wrap:wrap}
+.field{display:flex;flex-direction:column;gap:.3rem;margin-bottom:.9rem;flex:1 1 10rem}
+.field label,.label{font-weight:700;font-size:.95rem}
+.hint{font-size:.875rem;color:var(--muted)}
+input[type=text],input[type=date],input[type=time],select,textarea{background:var(--surface);border:1.5px solid var(--line);border-radius:6px;padding:.6rem .7rem;width:100%;min-height:2.75rem}
+textarea{min-height:4.5rem;resize:vertical}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem}
+.chip{position:relative;display:inline-flex}
+.chip input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.chip span{border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:.4rem .85rem;font-size:.95rem}
+.chip input:checked+span{background:var(--green-soft);border-color:var(--green);font-weight:700}
+.chip input:focus-visible+span{outline:3px solid var(--gold);outline-offset:2px}
+.hours-out{font:700 1.1rem var(--serif);color:var(--green)}
+.goal-group{margin-bottom:1rem}
+.goal-group h4{font:700 1rem var(--sans);margin:0 0 .35rem;color:var(--muted)}
+.check{display:flex;gap:.6rem;align-items:flex-start;padding:.35rem 0}
+.check input{width:1.25rem;height:1.25rem;margin-top:.15rem;accent-color:var(--green);flex:none}
+.check.attained{color:var(--muted)}
+.check .when{font-size:.85rem;color:var(--green);margin-left:.35rem}
+.star{color:var(--gold);cursor:help}
+.empty{color:var(--muted);font-style:italic;margin:.25rem 0}
+.btn{background:var(--green);color:var(--on-green);border:0;border-radius:6px;padding:.75rem 1.4rem;font-weight:700;cursor:pointer;min-height:2.75rem}
+.btn.quiet{background:none;color:var(--ink);border:1.5px solid var(--line)}
+.btn.small{padding:.35rem .75rem;min-height:0;font-size:.9rem}
+.btn.danger{background:none;border:1.5px solid var(--danger);color:var(--danger)}
+.errors{background:color-mix(in srgb,var(--danger) 12%,transparent);border-left:4px solid var(--danger);padding:.75rem 1rem;margin:0 0 1rem;border-radius:0 6px 6px 0}
+.errors ul{margin:.25rem 0 0;padding-left:1.2rem}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:1.25rem}
+.stamp-wrap{display:grid;place-items:center;padding:2rem 1rem;text-align:center}
+.stamp{border:4px double var(--stamp);color:var(--stamp);padding:1rem 1.75rem;transform:rotate(-5deg);font:700 1rem var(--sans);border-radius:6px;animation:thunk .35s ease-out}
+.stamp .big{font:700 2.4rem/1 var(--serif);letter-spacing:.12em}
+@keyframes thunk{from{transform:rotate(-5deg) scale(1.6);opacity:0}to{transform:rotate(-5deg) scale(1);opacity:1}}
+@media (prefers-reduced-motion: reduce){.stamp{animation:none}}
+.table-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.95rem}
+th,td{text-align:left;padding:.55rem .7rem;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:700;background:var(--green-soft)}
+td.num-cell,th.num-cell{text-align:right;font-variant-numeric:tabular-nums}
+tfoot td{font-weight:700;border-bottom:0}
+.tag{display:inline-block;font-size:.8rem;border-radius:4px;padding:.05rem .4rem;border:1px solid var(--line)}
+.tag.stopped{border-color:var(--danger);color:var(--danger)}
+.toolbar{display:flex;gap:.75rem;flex-wrap:wrap;align-items:flex-end;margin-bottom:1rem}
+.toolbar .field{margin:0;flex:0 1 12rem}
+.stats{display:flex;gap:2rem;flex-wrap:wrap;margin:0 0 1rem}
+.stats div{font-size:.9rem;color:var(--muted)}
+.stats strong{display:block;font:700 1.5rem var(--serif);color:var(--ink)}
+dialog{border:1px solid var(--line);border-radius:10px;padding:0;max-width:min(980px,96vw);width:100%;background:var(--surface);color:var(--ink)}
+dialog::backdrop{background:rgba(0,0,0,.45)}
+.dlg-body{padding:1.25rem;max-height:85vh;overflow:auto}
+.grid-table{font-size:.8rem}
+.grid-table th,.grid-table td{padding:.25rem .35rem;text-align:center;border:1px solid var(--line)}
+.grid-table td.na{background:repeating-linear-gradient(45deg,transparent 0 4px,var(--line) 4px 5px)}
+.grid-table td.code{color:var(--danger);font-weight:700}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(12rem,1fr));gap:.25rem 1rem;margin:.5rem 0 1rem;font-size:.95rem}
+footer{margin-top:3rem;font-size:.85rem;color:var(--muted);border-top:1px solid var(--line);padding-top:1rem}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media print{
+  body>*:not(dialog){display:none!important}
+  dialog{position:static;border:0;max-width:none;box-shadow:none}
+  .dlg-body{max-height:none;overflow:visible}
+  .no-print{display:none!important}
+  :root{--surface:#fff;--ink:#000;--line:#999;--paper:#fff}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <p class="org">Literacy Volunteers of America, Essex/Passaic County</p>
+      <h1>Tutor session log</h1>
+    </div>
+    <p class="org">FY 2026–2027</p>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Sections">
+    <button role="tab" id="tab-log" aria-selected="true" data-view="log">Log a session</button>
+    <button role="tab" id="tab-mine" aria-selected="false" data-view="mine">My sessions</button>
+    <button role="tab" id="tab-reports" aria-selected="false" data-view="reports">Monthly reports (staff)</button>
+  </nav>
+
+  <main>
+    <section id="view-log" role="tabpanel" aria-labelledby="tab-log"></section>
+    <section id="view-mine" role="tabpanel" aria-labelledby="tab-mine" hidden></section>
+    <section id="view-reports" role="tabpanel" aria-labelledby="tab-reports" hidden></section>
+  </main>
+
+  <footer>
+    Questions? Bloomfield Public Library, 90 Broad Street, Bloomfield, NJ 07003. info@lvaep.org, (973) 566-6200 x216.<br>
+    Tip from the office: add extra time to meetings when you can, and give students credit for completed homework.
+  </footer>
+</div>
+
+<dialog id="formDialog" aria-labelledby="dlgTitle"><div class="dlg-body" id="dlgBody"></div></dialog>
+
+<script>
+/* ---------- Constants ---------- */
+const KEY = 'lvaep-tutor-log-v1';
+const FY_START = '2026-07-01', FY_END = '2027-06-30';
+const MONTHS = ['Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr','May','Jun'];
+const SUBJECTS = ['Reading','Writing','Speaking & listening','Vocabulary','Citizenship prep','High school equivalency','Math','Job & workplace skills','Other'];
+const STATUS = { held:'Session held', TA:'Tutor absent', SA:'Student absent', H:'Holiday' };
+const GOALS = [
+  { cat:'A', title:'Economic', items:[
+    {id:'A1',label:'Enter employment',star:true},
+    {id:'A2',label:'Retain employment',star:true},
+    {id:'A3',label:'Leave public assistance'} ]},
+  { cat:'B', title:'Educational', items:[
+    {id:'B1',label:'Achieve work-based project learner goal'},
+    {id:'B2',label:'Enter occupational skills training program',star:true},
+    {id:'B3',label:'Enter postsecondary education',star:true},
+    {id:'B4',label:'Obtain high school diploma',star:true} ]},
+  { cat:'C', title:'Family', items:[
+    {id:'C1',label:'Help more frequently with school'},
+    {id:'C2',label:"Increase contact with child(ren)'s teachers"},
+    {id:'C3',label:"More involvement in child(ren)'s school activities"},
+    {id:'C4',label:'Purchase books or magazines'},
+    {id:'C5',label:'Read to child(ren)'},
+    {id:'C6',label:'Visit the library (with or for child(ren))'} ]},
+  { cat:'D', title:'Societal and community', items:[
+    {id:'D1',label:'Obtain citizenship',star:true},
+    {id:'D2',label:'Achieve civics skills'},
+    {id:'D3',label:'Increase involvement in community activities'},
+    {id:'D4',label:'Vote or register to vote'} ]}
+];
+const GOAL_LABEL = {};
+GOALS.forEach(g => g.items.forEach(i => GOAL_LABEL[i.id] = `${g.cat}${i.id.slice(1)}. ${i.label}`));
+
+/* ---------- Helpers ---------- */
+const $ = s => document.querySelector(s);
+const uid = () => Math.random().toString(36).slice(2, 10);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const todayISO = () => { const d = new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); return d.toISOString().slice(0,10); };
+const fmtDate = iso => new Date(iso + 'T12:00:00').toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'});
+const monthKey = iso => iso.slice(0,7);
+const fyMonthKey = i => `${i < 6 ? 2026 : 2027}-${String(i < 6 ? i + 7 : i - 5).padStart(2,'0')}`;
+const monthLabel = key => new Date(key + '-15T12:00:00').toLocaleDateString('en-US', {month:'long', year:'numeric'});
+const hoursBetween = (a, b) => {
+  if (!a || !b) return 0;
+  const [ah, am] = a.split(':').map(Number), [bh, bm] = b.split(':').map(Number);
+  const mins = (bh * 60 + bm) - (ah * 60 + am);
+  return mins > 0 ? Math.round(mins / 15) / 4 : 0;
+};
+const fmtHrs = h => `${+h.toFixed(2)} ${h === 1 ? 'hour' : 'hours'}`;
+
+/* ---------- Data ---------- */
+function seed() {
+  const s = (studentId, tutorId, date, status, start, end, subjects) => ({
+    id: uid(), studentId, tutorId, date, status, start: start || '', end: end || '',
+    hours: status === 'held' ? hoursBetween(start, end) : 0, subjects: subjects || [], notes:'', homework: status === 'held', createdAt: date
+  });
+  return {
+    tutors: [{id:'t1', name:'Maria Lopez'}, {id:'t2', name:'James Carter'}],
+    students: [
+      {id:'s1', name:'Ana Silva', tutorId:'t1', site:'Bloomfield Public Library', schedule:'Tue and Thu, 4:00–5:30 pm'},
+      {id:'s2', name:'Kwame Mensah', tutorId:'t1', site:'Bloomfield Public Library', schedule:'Sat, 10:00–11:30 am'},
+      {id:'s3', name:'Irina Petrova', tutorId:'t2', site:'Bloomfield Public Library', schedule:'Wed, 6:00–7:00 pm'}
+    ],
+    sessions: [
+      s('s1','t1','2026-08-18','held','16:00','17:30',['Reading','Vocabulary']),
+      s('s1','t1','2026-08-20','held','16:00','17:30',['Reading']),
+      s('s1','t1','2026-09-01','held','16:00','17:30',['Writing']),
+      s('s1','t1','2026-09-03','SA'),
+      s('s1','t1','2026-09-08','held','16:00','17:45',['Reading','Writing']),
+      s('s2','t1','2026-08-29','held','10:00','11:30',['Citizenship prep']),
+      s('s2','t1','2026-09-05','H'),
+      s('s2','t1','2026-09-12','held','10:00','11:30',['Citizenship prep','Speaking & listening']),
+      s('s3','t2','2026-09-02','held','18:00','19:00',['Job & workplace skills']),
+      s('s3','t2','2026-09-09','TA'),
+      s('s3','t2','2026-09-16','held','18:00','19:00',['Job & workplace skills','Writing'])
+    ],
+    achievements: [
+      {id:uid(), studentId:'s1', tutorId:'t1', goal:'C5', note:'', date:'2026-08-20'},
+      {id:uid(), studentId:'s3', tutorId:'t2', goal:'A1', note:'', date:'2026-09-16'}
+    ],
+    currentTutor: null
+  };
+}
+let db;
+function load() {
+  try { const raw = localStorage.getItem(KEY); if (raw) { db = JSON.parse(raw); return; } } catch (e) {}
+  db = seed();
+}
+function save() { try { localStorage.setItem(KEY, JSON.stringify(db)); } catch (e) {} }
+const tutor = id => db.tutors.find(t => t.id === id);
+const student = id => db.students.find(s => s.id === id);
+const attained = sid => db.achievements.filter(a => a.studentId === sid && a.goal !== 'E');
+
+/* ---------- Tabs ---------- */
+document.querySelectorAll('nav.tabs button').forEach(b => b.addEventListener('click', () => showView(b.dataset.view)));
+function showView(v) {
+  document.querySelectorAll('nav.tabs button').forEach(b => b.setAttribute('aria-selected', b.dataset.view === v));
+  ['log','mine','reports'].forEach(n => $('#view-' + n).hidden = n !== v);
+  ({log: renderLog, mine: renderMine, reports: renderReports})[v]();
+}
+
+/* ---------- Tutor gate ---------- */
+function renderGate(target, after) {
+  target.innerHTML = `
+    <div class="card">
+      <h2>Welcome! Who's tutoring today?</h2>
+      <p class="hint">Pick your name once. This device will remember you.</p>
+      <div class="field"><label for="gateTutor">Your name</label>
+        <select id="gateTutor"><option value="">Choose your name</option>
+          ${db.tutors.map(t => `<option value="${t.id}">${esc(t.name)}</option>`).join('')}
+          <option value="__new">I'm a new tutor</option></select></div>
+      <div class="field" id="gateNewWrap" hidden><label for="gateNew">Your full name</label><input type="text" id="gateNew" autocomplete="name"></div>
+      <button class="btn" id="gateGo">Continue</button>
+      <p class="errors" id="gateErr" hidden></p>
+    </div>`;
+  $('#gateTutor').onchange = e => $('#gateNewWrap').hidden = e.target.value !== '__new';
+  $('#gateGo').onclick = () => {
+    let id = $('#gateTutor').value;
+    if (id === '__new') {
+      const name = $('#gateNew').value.trim();
+      if (!name) return showGateErr('Enter your full name to continue.');
+      id = 't' + uid(); db.tutors.push({id, name});
+    }
+    if (!id) return showGateErr('Choose your name to continue.');
+    db.currentTutor = id; save(); after();
+  };
+  function showGateErr(m) { const e = $('#gateErr'); e.textContent = m; e.hidden = false; }
+}
+function greeting() {
+  const h = new Date().getHours();
+  return h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+}
+
+/* ---------- Log a session ---------- */
+function renderLog() {
+  const el = $('#view-log');
+  if (!db.currentTutor || !tutor(db.currentTutor)) return renderGate(el, renderLog);
+  const me = tutor(db.currentTutor);
+  const mine = db.students.filter(s => s.tutorId === me.id && !s.stopped);
+  const monthHrs = db.sessions.filter(s => s.tutorId === me.id && monthKey(s.date) === monthKey(todayISO())).reduce((a, s) => a + s.hours, 0);
+
+  el.innerHTML = `
+    <div class="greet">
+      <h2>${greeting()}, ${esc(me.name.split(' ')[0])}.</h2>
+      <p>You've logged ${fmtHrs(monthHrs)} this month. <button class="linkish" id="switchTutor">Not ${esc(me.name.split(' ')[0])}? Switch tutor</button></p>
+    </div>
+    <div id="formErrors" class="errors" hidden role="alert"></div>
+    <form id="logForm" novalidate>
+      <fieldset class="step" id="step1">
+        <legend><span class="num">1</span> When did you meet?</legend>
+        <div class="row">
+          <div class="field"><label for="fDate">Date</label><input type="date" id="fDate" value="${todayISO()}" min="${FY_START}" max="${todayISO() < FY_END ? todayISO() : FY_END}"></div>
+          <div class="field"><label for="fStatus">What happened?</label>
+            <select id="fStatus">${Object.entries(STATUS).map(([k, v]) => `<option value="${k}">${v}</option>`).join('')}</select></div>
+        </div>
+        <div class="row" id="timeRow">
+          <div class="field"><label for="fStart">Start time</label><input type="time" id="fStart" step="900"></div>
+          <div class="field"><label for="fEnd">End time</label><input type="time" id="fEnd" step="900"></div>
+          <div class="field"><span class="label">Hours tutored</span><span class="hours-out" id="hoursOut" aria-live="polite">Enter start and end times</span></div>
+        </div>
+      </fieldset>
+
+      <fieldset class="step" id="step2">
+        <legend><span class="num">2</span> What did you work on?</legend>
+        <div class="chips" role="group" aria-label="Subjects">
+          ${SUBJECTS.map(s => `<label class="chip"><input type="checkbox" name="subject" value="${esc(s)}"><span>${esc(s)}</span></label>`).join('')}
+        </div>
+        <div class="field" style="margin-top:.9rem"><label for="fNotes">Notes <span class="hint">(optional)</span></label>
+          <textarea id="fNotes" placeholder="What went well, what to review next time"></textarea></div>
+        <label class="check"><input type="checkbox" id="fHomework"> <span>I assigned homework</span></label>
+      </fieldset>
+
+      <fieldset class="step" id="step3">
+        <legend><span class="num">3</span> Which student?</legend>
+        <div class="field"><label for="fStudent">Student</label>
+          <select id="fStudent"><option value="">Choose a student</option>
+            ${mine.map(s => `<option value="${s.id}">${esc(s.name)}</option>`).join('')}
+            <option value="__new">Add a new student</option></select>
+          <span class="hint" id="studentMeta"></span></div>
+        <div id="newStudent" hidden>
+          <div class="row">
+            <div class="field"><label for="nsName">Student's full name</label><input type="text" id="nsName"></div>
+            <div class="field"><label for="nsSite">Tutoring site</label><input type="text" id="nsSite" value="Bloomfield Public Library"></div>
+          </div>
+          <div class="field"><label for="nsSched">Usual days and times</label><input type="text" id="nsSched" placeholder="e.g. Tue and Thu, 4:00–5:30 pm"></div>
+        </div>
+      </fieldset>
+
+      <fieldset class="step" id="step4">
+        <legend><span class="num">4</span> Did your student reach any goals?</legend>
+        <div id="goalsArea"><p class="empty">Choose a student to see their goals.</p></div>
+      </fieldset>
+
+      <button type="submit" class="btn">Log session</button>
+    </form>`;
+
+  $('#switchTutor').onclick = () => { db.currentTutor = null; save(); renderLog(); };
+  const updateHours = () => {
+    const held = $('#fStatus').value === 'held';
+    $('#timeRow').hidden = !held;
+    const h = hoursBetween($('#fStart').value, $('#fEnd').value);
+    $('#hoursOut').textContent = h ? fmtHrs(h) : ($('#fStart').value && $('#fEnd').value ? 'End time must be after start time' : 'Enter start and end times');
+    $('#step1').classList.toggle('done', !!$('#fDate').value && (!held || h > 0));
+  };
+  ['#fStatus','#fStart','#fEnd','#fDate'].forEach(s => $(s).addEventListener('input', updateHours));
+  $('#step2').addEventListener('change', () => $('#step2').classList.toggle('done', !!document.querySelector('input[name=subject]:checked')));
+  $('#fStudent').onchange = e => {
+    const v = e.target.value;
+    $('#newStudent').hidden = v !== '__new';
+    const s = student(v);
+    $('#studentMeta').textContent = s ? `${s.site}${s.schedule ? '. Usually ' + s.schedule : ''}` : '';
+    $('#step3').classList.toggle('done', !!v);
+    renderGoals(s ? s.id : null, v === '__new');
+  };
+  $('#logForm').onsubmit = submitLog;
+  updateHours();
+}
+
+function renderGoals(sid, isNew) {
+  const area = $('#goalsArea');
+  if (!sid && !isNew) { area.innerHTML = '<p class="empty">Choose a student to see their goals.</p>'; return; }
+  const got = {}; if (sid) attained(sid).forEach(a => got[a.goal] = a.date);
+  area.innerHTML = `
+    <p class="hint">Tick any goal your student reached. Goals already reached this year are shown with the date.</p>
+    ${GOALS.map(g => `<div class="goal-group"><h4>${g.cat}. ${g.title}</h4>
+      ${g.items.map(i => got[i.id]
+        ? `<label class="check attained"><input type="checkbox" checked disabled> <span>${esc(i.label)}${i.star ? ' <span class="star" title="Starred on the LVA form">*</span>' : ''}<span class="when">Reached ${fmtDate(got[i.id])}</span></span></label>`
+        : `<label class="check"><input type="checkbox" name="goal" value="${i.id}"> <span>${esc(i.label)}${i.star ? ' <span class="star" title="Starred on the LVA form">*</span>' : ''}</span></label>`).join('')}
+    </div>`).join('')}
+    <div class="field"><label for="fOther">E. Other goal reached <span class="hint">(optional)</span></label><input type="text" id="fOther" placeholder="Describe the goal"></div>
+    <label class="check"><input type="checkbox" id="fStopped"> <span>My student has stopped tutoring</span></label>
+    <div class="field" id="stopWrap" hidden><label for="fStopReason">Reason</label><input type="text" id="fStopReason"><span class="hint">Staff will see this in the monthly report.</span></div>`;
+  $('#fStopped').onchange = e => $('#stopWrap').hidden = !e.target.checked;
+}
+
+function submitLog(e) {
+  e.preventDefault();
+  const errs = [];
+  const date = $('#fDate').value, status = $('#fStatus').value;
+  const start = $('#fStart').value, end = $('#fEnd').value;
+  const hours = status === 'held' ? hoursBetween(start, end) : 0;
+  const subjects = [...document.querySelectorAll('input[name=subject]:checked')].map(i => i.value);
+  let sid = $('#fStudent').value;
+
+  if (!date) errs.push('Enter the date you met.');
+  else if (date > todayISO()) errs.push("The date can't be in the future.");
+  else if (date < FY_START || date > FY_END) errs.push('The date must fall within FY 2026–2027 (Jul 1, 2026 to Jun 30, 2027).');
+  if (status === 'held' && !hours) errs.push('Enter a start and end time, with the end after the start.');
+  if (status === 'held' && hours > 8) errs.push('That session is over 8 hours. Check the start and end times.');
+  if (status === 'held' && !subjects.length) errs.push('Choose at least one thing you worked on.');
+  if (!sid) errs.push('Choose a student.');
+  if (sid === '__new' && !$('#nsName').value.trim()) errs.push("Enter the new student's full name.");
+  if ($('#fStopped')?.checked && !$('#fStopReason').value.trim()) errs.push('Add a reason your student stopped tutoring.');
+
+  const box = $('#formErrors');
+  if (errs.length) {
+    box.innerHTML = `<strong>Fix these to log the session:</strong><ul>${errs.map(x => `<li>${x}</li>`).join('')}</ul>`;
+    box.hidden = false; box.scrollIntoView({block:'center'}); return;
+  }
+  box.hidden = true;
+  if (sid !== '__new' && db.sessions.some(s => s.studentId === sid && s.date === date)
+      && !confirm(`You already logged a session with ${student(sid).name} on ${fmtDate(date)}. Log another one?`)) return;
+
+  if (sid === '__new') {
+    sid = 's' + uid();
+    db.students.push({id:sid, name:$('#nsName').value.trim(), tutorId:db.currentTutor, site:$('#nsSite').value.trim(), schedule:$('#nsSched').value.trim()});
+  }
+  db.sessions.push({id:uid(), studentId:sid, tutorId:db.currentTutor, date, status,
+    start: status === 'held' ? start : '', end: status === 'held' ? end : '', hours, subjects,
+    notes:$('#fNotes').value.trim(), homework:$('#fHomework').checked, createdAt:new Date().toISOString()});
+  const newGoals = [...document.querySelectorAll('input[name=goal]:checked')].map(i => i.value);
+  newGoals.forEach(g => db.achievements.push({id:uid(), studentId:sid, tutorId:db.currentTutor, goal:g, note:'', date}));
+  const other = $('#fOther')?.value.trim();
+  if (other) db.achievements.push({id:uid(), studentId:sid, tutorId:db.currentTutor, goal:'E', note:other, date});
+  if ($('#fStopped')?.checked) student(sid).stopped = {date, reason:$('#fStopReason').value.trim()};
+  save();
+
+  const st = student(sid);
+  $('#view-log').innerHTML = `
+    <div class="card stamp-wrap" role="status">
+      <div class="stamp"><div class="big">LOGGED</div>${fmtDate(date)}</div>
+      <p style="margin-top:1.75rem">${esc(st.name)}: ${status === 'held' ? fmtHrs(hours) : STATUS[status].toLowerCase()}${newGoals.length || other ? `, plus ${newGoals.length + (other ? 1 : 0)} goal${newGoals.length + (other ? 1 : 0) > 1 ? 's' : ''} reached` : ''}.</p>
+      <div class="row" style="justify-content:center">
+        <button class="btn" id="again">Log another session</button>
+        <button class="btn quiet" id="seeMine">See my sessions</button>
+      </div>
+    </div>`;
+  $('#again').onclick = renderLog;
+  $('#seeMine').onclick = () => showView('mine');
+}
+
+/* ---------- My sessions ---------- */
+function renderMine() {
+  const el = $('#view-mine');
+  if (!db.currentTutor || !tutor(db.currentTutor)) return renderGate(el, renderMine);
+  const me = tutor(db.currentTutor);
+  const rows = db.sessions.filter(s => s.tutorId === me.id).sort((a, b) => b.date.localeCompare(a.date));
+  const mk = monthKey(todayISO());
+  const thisMonth = rows.filter(s => monthKey(s.date) === mk);
+  el.innerHTML = `
+    <h2>Your sessions</h2>
+    <div class="stats">
+      <div><strong>${+thisMonth.reduce((a, s) => a + s.hours, 0).toFixed(2)}</strong>hours this month</div>
+      <div><strong>${thisMonth.filter(s => s.status === 'held').length}</strong>sessions this month</div>
+      <div><strong>${db.students.filter(s => s.tutorId === me.id && !s.stopped).length}</strong>active students</div>
+    </div>
+    ${rows.length ? `<div class="table-scroll"><table>
+      <thead><tr><th>Date</th><th>Student</th><th>Result</th><th>Worked on</th><th><span class="sr">Actions</span></th></tr></thead>
+      <tbody>${rows.map(s => `<tr>
+        <td>${fmtDate(s.date)}</td><td>${esc(student(s.studentId)?.name)}</td>
+        <td>${s.status === 'held' ? fmtHrs(s.hours) : STATUS[s.status]}</td>
+        <td>${esc(s.subjects.join(', ')) || '<span class="hint">None</span>'}</td>
+        <td><button class="btn danger small" data-del="${s.id}">Delete</button></td></tr>`).join('')}</tbody>
+    </table></div>` : '<p class="empty">No sessions yet. Log your first one from the "Log a session" tab.</p>'}`;
+  el.querySelectorAll('[data-del]').forEach(b => b.onclick = () => {
+    if (!confirm('Delete this session? This can\'t be undone.')) return;
+    db.sessions = db.sessions.filter(s => s.id !== b.dataset.del); save(); renderMine();
+  });
+}
+
+/* ---------- Monthly reports (staff) ---------- */
+let repMonth = null, repTutor = '';
+function buildReport(mk, tid) {
+  const students = db.students.filter(s => !tid || s.tutorId === tid);
+  return students.map(s => {
+    const ss = db.sessions.filter(x => x.studentId === s.id && monthKey(x.date) === mk);
+    const goals = db.achievements.filter(a => a.studentId === s.id && monthKey(a.date) === mk);
+    const count = c => ss.filter(x => x.status === c).length;
+    return { s, held: count('held'), hours: ss.reduce((a, x) => a + x.hours, 0),
+      TA: count('TA'), SA: count('SA'), H: count('H'),
+      goals: goals.map(a => a.goal === 'E' ? `E. Other: ${a.note}` : GOAL_LABEL[a.goal]),
+      stoppedThisMonth: s.stopped && monthKey(s.stopped.date) === mk };
+  }).filter(r => r.held || r.TA || r.SA || r.H || r.goals.length || !r.s.stopped);
+}
+function renderReports() {
+  const el = $('#view-reports');
+  if (!repMonth) { const mk = monthKey(todayISO()); repMonth = mk >= '2026-07' && mk <= '2027-06' ? mk : '2026-07'; }
+  const rows = buildReport(repMonth, repTutor);
+  const tot = rows.reduce((a, r) => ({held:a.held + r.held, hours:a.hours + r.hours, abs:a.abs + r.TA + r.SA, goals:a.goals + r.goals.length}), {held:0, hours:0, abs:0, goals:0});
+  el.innerHTML = `
+    <h2>Monthly report</h2>
+    <p class="hint">Totals build automatically as tutors log sessions. No collecting paper forms.</p>
+    <div class="toolbar">
+      <div class="field"><label for="rMonth">Month</label><select id="rMonth">
+        ${MONTHS.map((m, i) => `<option value="${fyMonthKey(i)}" ${fyMonthKey(i) === repMonth ? 'selected' : ''}>${monthLabel(fyMonthKey(i))}</option>`).join('')}</select></div>
+      <div class="field"><label for="rTutor">Tutor</label><select id="rTutor"><option value="">All tutors</option>
+        ${db.tutors.map(t => `<option value="${t.id}" ${t.id === repTutor ? 'selected' : ''}>${esc(t.name)}</option>`).join('')}</select></div>
+      <button class="btn" id="csvMonth">Download CSV</button>
+      <button class="btn quiet" id="csvAll">Download all sessions</button>
+    </div>
+    <div class="stats">
+      <div><strong>${+tot.hours.toFixed(2)}</strong>hours tutored</div>
+      <div><strong>${tot.held}</strong>sessions held</div>
+      <div><strong>${tot.abs}</strong>absences</div>
+      <div><strong>${tot.goals}</strong>goals reached</div>
+    </div>
+    ${rows.length ? `<div class="table-scroll"><table>
+      <thead><tr><th>Student</th><th>Tutor</th><th class="num-cell">Sessions</th><th class="num-cell">Hours</th><th>Absences</th><th>Goals reached</th><th>Status</th><th><span class="sr">Actions</span></th></tr></thead>
+      <tbody>${rows.map(r => `<tr>
+        <td>${esc(r.s.name)}<br><span class="hint">${esc(r.s.site)}</span></td>
+        <td>${esc(tutor(r.s.tutorId)?.name)}</td>
+        <td class="num-cell">${r.held}</td><td class="num-cell">${+r.hours.toFixed(2)}</td>
+        <td>${[['TA', r.TA], ['SA', r.SA], ['H', r.H]].filter(x => x[1]).map(x => `<span title="${STATUS[x[0]]}">${x[0]} ×${x[1]}</span>`).join(', ') || '<span class="hint">None</span>'}</td>
+        <td>${r.goals.map(esc).join('<br>') || '<span class="hint">None</span>'}</td>
+        <td>${r.s.stopped ? `<span class="tag stopped" title="${esc(r.s.stopped.reason)}">Stopped ${fmtDate(r.s.stopped.date)}</span>` : '<span class="tag">Active</span>'}</td>
+        <td><button class="btn quiet small" data-form="${r.s.id}">Year form</button></td></tr>`).join('')}</tbody>
+      <tfoot><tr><td colspan="2">Total</td><td class="num-cell">${tot.held}</td><td class="num-cell">${+tot.hours.toFixed(2)}</td><td colspan="4"></td></tr></tfoot>
+    </table></div>` : '<p class="empty">No activity for this month yet.</p>'}
+    <p class="hint" style="margin-top:1rem">TA: tutor absent. SA: student absent. H: holiday. "Year form" shows a student's full attendance grid in the same layout as the paper form, ready to print.</p>
+    <p style="margin-top:2rem"><button class="linkish" id="resetDemo">Reset to demo data</button></p>`;
+
+  $('#rMonth').onchange = e => { repMonth = e.target.value; renderReports(); };
+  $('#rTutor').onchange = e => { repTutor = e.target.value; renderReports(); };
+  $('#csvMonth').onclick = () => downloadCSV(`lvaep-report-${repMonth}.csv`,
+    [['Student','Tutor','Site','Sessions held','Hours','Tutor absent','Student absent','Holiday','Goals reached','Status','Stop reason'],
+     ...rows.map(r => [r.s.name, tutor(r.s.tutorId)?.name, r.s.site, r.held, r.hours, r.TA, r.SA, r.H, r.goals.join('; '),
+       r.s.stopped ? 'Stopped ' + r.s.stopped.date : 'Active', r.s.stopped?.reason || ''])]);
+  $('#csvAll').onclick = () => downloadCSV('lvaep-all-sessions.csv',
+    [['Date','Tutor','Student','Site','Status','Start','End','Hours','Subjects','Homework assigned','Notes'],
+     ...[...db.sessions].sort((a, b) => a.date.localeCompare(b.date)).map(s => [s.date, tutor(s.tutorId)?.name, student(s.studentId)?.name,
+       student(s.studentId)?.site, STATUS[s.status], s.start, s.end, s.hours, s.subjects.join('; '), s.homework ? 'Yes' : 'No', s.notes])]);
+  el.querySelectorAll('[data-form]').forEach(b => b.onclick = () => openYearForm(b.dataset.form));
+  $('#resetDemo').onclick = () => { if (confirm('Replace all data with the demo data?')) { db = seed(); save(); renderReports(); } };
+}
+
+function downloadCSV(name, rows) {
+  const csv = rows.map(r => r.map(v => `"${String(v ?? '').replace(/"/g, '""')}"`).join(',')).join('\r\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv'}));
+  a.download = name; document.body.appendChild(a); a.click(); a.remove();
+}
+
+function openYearForm(sid) {
+  const s = student(sid), t = tutor(s.tutorId);
+  const cell = {};
+  db.sessions.filter(x => x.studentId === sid).forEach(x => {
+    const k = x.date; const v = x.status === 'held' ? x.hours : x.status;
+    cell[k] = cell[k] == null ? v : (typeof cell[k] === 'number' && typeof v === 'number' ? cell[k] + v : cell[k] + '/' + v);
+  });
+  const monthTotals = MONTHS.map((_, i) => db.sessions.filter(x => x.studentId === sid && monthKey(x.date) === fyMonthKey(i)).reduce((a, x) => a + x.hours, 0));
+  const daysIn = i => { const [y, m] = fyMonthKey(i).split('-').map(Number); return new Date(y, m, 0).getDate(); };
+  const got = db.achievements.filter(a => a.studentId === sid);
+  $('#dlgBody').innerHTML = `
+    <div class="row no-print" style="justify-content:space-between;align-items:center;margin-bottom:.5rem">
+      <span class="hint">Same layout as the paper form</span>
+      <div class="row"><button class="btn small" id="printForm">Print</button><button class="btn quiet small" id="closeForm">Close</button></div>
+    </div>
+    <p class="org">Literacy Volunteers of America, Essex/Passaic County</p>
+    <h2 id="dlgTitle">Student monthly attendance and achievement form, FY 2026–2027</h2>
+    <div class="meta">
+      <div><strong>Tutor:</strong> ${esc(t?.name)}</div><div><strong>Student:</strong> ${esc(s.name)}</div>
+      <div><strong>Tutoring site:</strong> ${esc(s.site)}</div><div><strong>Day(s) and time(s):</strong> ${esc(s.schedule || '')}</div>
+    </div>
+    <h3>Attendance (hours)</h3>
+    <div class="table-scroll"><table class="grid-table">
+      <thead><tr><th>Day</th>${MONTHS.map(m => `<th>${m}</th>`).join('')}</tr></thead>
+      <tbody>${Array.from({length:31}, (_, d) => `<tr><th>${d + 1}</th>${MONTHS.map((_, i) => {
+        if (d + 1 > daysIn(i)) return '<td class="na"></td>';
+        const v = cell[`${fyMonthKey(i)}-${String(d + 1).padStart(2,'0')}`];
+        return v == null ? '<td></td>' : typeof v === 'number' ? `<td>${+v.toFixed(2)}</td>` : `<td class="code">${esc(v)}</td>`;
+      }).join('')}</tr>`).join('')}</tbody>
+      <tfoot><tr><td>Total</td>${monthTotals.map(h => `<td>${h ? +h.toFixed(2) : ''}</td>`).join('')}</tr></tfoot>
+    </table></div>
+    <p class="hint">TA: tutor absent. SA: student absent. H: holiday.</p>
+    <h3 style="margin-top:1rem">Achievements</h3>
+    ${got.length ? `<ul>${got.map(a => `<li>${esc(a.goal === 'E' ? 'E. Other: ' + a.note : GOAL_LABEL[a.goal])} <span class="hint">(${fmtDate(a.date)})</span></li>`).join('')}</ul>` : '<p class="empty">No goals reached yet.</p>'}
+    ${s.stopped ? `<p><strong>Stopped:</strong> ${fmtDate(s.stopped.date)}. Reason: ${esc(s.stopped.reason)}</p>` : ''}`;
+  const dlg = $('#formDialog');
+  dlg.showModal();
+  $('#closeForm').onclick = () => dlg.close();
+  $('#printForm').onclick = () => window.print();
+}
+
+/* ---------- Start ---------- */
+load();
+renderLog();
+</script>
+</body>
+</html>
